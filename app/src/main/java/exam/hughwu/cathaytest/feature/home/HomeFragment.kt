@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import exam.hughwu.cathaytest.R
+import exam.hughwu.cathaytest.common.applyHorizontalAndBottomInsets
 import exam.hughwu.cathaytest.databinding.FragmentHomeBinding
 
 /**
@@ -29,14 +30,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val b = binding ?: return
-        b.btnXml.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_xml)
-        }
-        b.btnHybrid.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_hybrid)
-        }
-        b.btnCompose.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_compose)
+        with(b) {
+            root.applyHorizontalAndBottomInsets()
+            btnXml.setOnClickListener {
+                findNavController().navigate(R.id.action_home_to_xml)
+            }
+            btnHybrid.setOnClickListener {
+                findNavController().navigate(R.id.action_home_to_hybrid)
+            }
+            btnCompose.setOnClickListener {
+                findNavController().navigate(R.id.action_home_to_compose)
+            }
         }
     }
 

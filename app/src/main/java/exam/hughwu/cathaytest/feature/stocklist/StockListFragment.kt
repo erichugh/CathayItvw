@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import exam.hughwu.cathaytest.R
 import exam.hughwu.cathaytest.common.BaseFragment
+import exam.hughwu.cathaytest.common.applyHorizontalAndBottomInsets
 import exam.hughwu.cathaytest.databinding.FragmentStockListBinding
 import exam.hughwu.cathaytest.feature.stocklist.adapter.StockAdapter
 import exam.hughwu.cathaytest.feature.stocklist.dialog.StockDetailDialog
@@ -42,23 +43,26 @@ class StockListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val b = binding ?: return
+        with(b) {
+            root.applyHorizontalAndBottomInsets()
 
-        b.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = stockAdapter
-            setHasFixedSize(true)
-            itemAnimator = null
-        }
+            recyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = stockAdapter
+                setHasFixedSize(true)
+                itemAnimator = null
+            }
 
-        b.swipeRefresh.setOnRefreshListener {
-            viewModel.sendIntent(StockListIntent.Refresh)
-        }
+            swipeRefresh.setOnRefreshListener {
+                viewModel.sendIntent(StockListIntent.Refresh)
+            }
 
-        b.toolbar.setOnMenuItemClickListener { item ->
-            if (item.itemId == R.id.action_filter) {
-                viewModel.sendIntent(StockListIntent.OnSortIconClicked)
-                true
-            } else false
+            toolbar.setOnMenuItemClickListener { item ->
+                if (item.itemId == R.id.action_filter) {
+                    viewModel.sendIntent(StockListIntent.OnSortIconClicked)
+                    true
+                } else false
+            }
         }
 
         // Receive selection from StockSortBottomSheet

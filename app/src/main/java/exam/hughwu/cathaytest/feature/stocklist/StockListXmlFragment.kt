@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import exam.hughwu.cathaytest.R
 import exam.hughwu.cathaytest.common.BaseFragment
+import exam.hughwu.cathaytest.common.applyHorizontalAndBottomInsets
 import exam.hughwu.cathaytest.databinding.FragmentStockListXmlBinding
 import exam.hughwu.cathaytest.feature.stocklist.adapter.XmlStockAdapter
 import exam.hughwu.cathaytest.feature.stocklist.dialog.StockDetailDialog
@@ -51,25 +52,28 @@ class StockListXmlFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val b = binding ?: return
+        with(b) {
+            root.applyHorizontalAndBottomInsets()
 
-        b.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = stockAdapter
-            setHasFixedSize(true)
-            // Snap-update (no item animator) keeps re-sorts of 1000+ rows
-            // instant; the initial fade-in is still driven by `layoutAnimation`.
-            itemAnimator = null
-        }
+            recyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = stockAdapter
+                setHasFixedSize(true)
+                // Snap-update (no item animator) keeps re-sorts of 1000+ rows
+                // instant; the initial fade-in is still driven by `layoutAnimation`.
+                itemAnimator = null
+            }
 
-        b.swipeRefresh.setOnRefreshListener {
-            viewModel.sendIntent(StockListIntent.Refresh)
-        }
+            swipeRefresh.setOnRefreshListener {
+                viewModel.sendIntent(StockListIntent.Refresh)
+            }
 
-        b.toolbar.setOnMenuItemClickListener { item ->
-            if (item.itemId == R.id.action_filter) {
-                viewModel.sendIntent(StockListIntent.OnSortIconClicked)
-                true
-            } else false
+            toolbar.setOnMenuItemClickListener { item ->
+                if (item.itemId == R.id.action_filter) {
+                    viewModel.sendIntent(StockListIntent.OnSortIconClicked)
+                    true
+                } else false
+            }
         }
 
         // Receive selection from StockSortBottomSheet

@@ -1,11 +1,21 @@
 package exam.hughwu.cathaytest.feature.stocklist.composable
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -32,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -79,28 +90,55 @@ fun StockListScreen(viewModel: StockListViewModel) {
     }
 
     Scaffold(
+        // Inset the whole screen (app bar + body) off the side navigation bar /
+        // camera cutout and the bottom nav, matching the XML variants' root
+        // padding — so the green toolbar never shows under the system controls.
+        modifier = Modifier.windowInsetsPadding(
+            WindowInsets.systemBars
+                .union(WindowInsets.displayCutout)
+                .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom),
+        ),
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.title_variant_compose)) },
-                actions = {
-                    IconButton(onClick = {
-                        viewModel.sendIntent(StockListIntent.OnSortIconClicked)
-                    }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_filter),
-                            contentDescription = stringResource(R.string.action_filter),
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-            )
+            // Mirror the XML variants' AppBar: a black scrim fills the status-
+            // bar (top) inset so the green toolbar color never shows behind the
+            // control bar; the green TopAppBar sits below it.
+            Column(Modifier.background(Color.Black)) {
+                Spacer(
+                    Modifier.windowInsetsTopHeight(
+                        WindowInsets.systemBars
+                            .union(WindowInsets.displayCutout)
+                            .only(WindowInsetsSides.Top),
+                    ),
+                )
+                TopAppBar(
+                    title = { Text(stringResource(R.string.title_variant_compose)) },
+                    actions = {
+                        IconButton(onClick = {
+                            viewModel.sendIntent(StockListIntent.OnSortIconClicked)
+                        }) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_filter),
+                                contentDescription = stringResource(R.string.action_filter),
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
+                    // Top inset is the black Spacer above; horizontal inset is
+                    // applied to the whole Scaffold — so the bar adds none.
+                    windowInsets = WindowInsets(0, 0, 0, 0),
+                )
+            }
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.background,
+        // Insets are handled explicitly below (mirrors the XML variants: the
+        // app bar owns the top inset, the body owns the sides + bottom), so
+        // Scaffold itself adds none and `innerPadding` is just the bar height.
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
     ) { innerPadding ->
         val listState = rememberLazyListState()
         // Snap to the top of the new ordering whenever the sort order changes
@@ -112,9 +150,11 @@ fun StockListScreen(viewModel: StockListViewModel) {
         PullToRefreshBox(
             isRefreshing = uiState.isRefreshing,
             onRefresh = { viewModel.sendIntent(StockListIntent.Refresh) },
+            // Side / bottom insets are applied to the whole Scaffold; only the
+            // app-bar height needs handling here.
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(top = innerPadding.calculateTopPadding()),
         ) {
             LazyColumn(
                 state = listState,
