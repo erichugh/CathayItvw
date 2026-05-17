@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.CathayTest" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Dark mode keeps the deeper teal toolbar so it sits cleanly against the dark surface -->
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorPrimaryVariant">@color/brand_primary_variant</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand_primary_light</item>
+        <item name="colorSecondaryVariant">@color/brand_primary_light</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar: ignored on SDK 35+ edge-to-edge; AppBarLayout's statusBarForeground
+             (in fragment_stock_list.xml) paints the area black instead. -->
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+    </style>
+</resources>

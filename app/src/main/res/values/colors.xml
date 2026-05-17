@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Cathay-United-style brand green -->
+    <color name="cathay_green">#007852</color>
+    <color name="cathay_green_dark">#005A3D</color>
+    <color name="cathay_green_light">#3FA383</color>
+
+    <!-- Legacy teal-blue (kept for dark-mode contrast) -->
+    <color name="brand_primary">#1B5E7E</color>
+    <color name="brand_primary_variant">#0D3F5A</color>
+    <color name="brand_primary_light">#4A8AAB</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- ===== Compose MaterialTheme color scheme (consumed by AppTheme.kt) ===== -->
+    <!-- Surface family — overridden in values-night for dark mode -->
+    <color name="scheme_surface">#FAFAFA</color>
+    <color name="scheme_on_surface">#1A1A1A</color>
+    <color name="scheme_surface_variant">#E9EEF2</color>
+    <color name="scheme_on_surface_variant">#445566</color>
+    <color name="scheme_background">#F5F7FA</color>
+    <color name="scheme_on_background">#1A1A1A</color>
+
+    <!-- Primary swap: light & dark exchange roles -->
+    <color name="scheme_primary">#1B5E7E</color>
+    <color name="scheme_on_primary">#FFFFFF</color>
+    <color name="scheme_primary_container">#4A8AAB</color>
+    <color name="scheme_on_primary_container">#FFFFFF</color>
+
+    <!-- TWSE trend palette (UP=red, DOWN=green) -->
+    <color name="trend_up">#D32F2F</color>
+    <color name="trend_down">#2E7D32</color>
+    <color name="trend_flat">#607D8B</color>
+</resources>

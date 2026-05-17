@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">CathayTest</string>
+    <string name="title_stock_list">上市個股日報</string>
+
+    <!-- Home entry page + variant titles -->
+    <string name="title_home">上市個股日報</string>
+    <string name="home_subtitle">選擇 UI 實作方式</string>
+    <string name="btn_variant_xml">XML</string>
+    <string name="btn_variant_hybrid">Hybrid</string>
+    <string name="btn_variant_compose">Compose</string>
+    <string name="title_variant_xml">上市個股日報 (XML)</string>
+    <string name="title_variant_hybrid">上市個股日報 (Hybrid)</string>
+    <string name="title_variant_compose">上市個股日報 (Compose)</string>
+    <string name="action_filter">排序</string>
+    <string name="sort_by_code_asc">依股票代號升序</string>
+    <string name="sort_by_code_desc">依股票代號降序</string>
+    <string name="dialog_title_stock_detail">%1$s %2$s</string>
+    <string name="label_pe_ratio">本益比</string>
+    <string name="label_dividend_yield">殖利率</string>
+    <string name="format_percent">(%1$s%%)</string>
+    <string name="label_pb_ratio">股價淨值比</string>
+    <string name="label_opening_price">開盤價</string>
+    <string name="label_closing_price">收盤價</string>
+    <string name="label_highest_price">最高價</string>
+    <string name="label_lowest_price">最低價</string>
+    <string name="label_change">漲跌價差</string>
+    <string name="label_monthly_avg">月平均價</string>
+    <string name="label_transaction">成交筆數</string>
+    <string name="label_trade_volume">成交股數</string>
+    <string name="label_trade_value">成交金額</string>
+    <string name="placeholder_no_data">--</string>
+    <string name="hint_no_ratio_data">此股無 PE／殖利率／PB 資料\n(可能為權證/ETF)</string>
+    <string name="error_load_failed">載入失敗，請下拉重新整理</string>
+    <string name="action_dismiss">確定</string>
+</resources>

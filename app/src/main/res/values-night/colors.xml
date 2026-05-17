@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark-mode overrides for Compose MaterialTheme scheme (see values/colors.xml). -->
+
+    <!-- Surface family — darker -->
+    <color name="scheme_surface">#1B1F22</color>
+    <color name="scheme_on_surface">#E6E6E6</color>
+    <color name="scheme_surface_variant">#263238</color>
+    <color name="scheme_on_surface_variant">#B0BEC5</color>
+    <color name="scheme_background">#121416</color>
+    <color name="scheme_on_background">#E6E6E6</color>
+
+    <!-- Primary swap: light primaryContainer becomes dark primary -->
+    <color name="scheme_primary">#4A8AAB</color>
+    <color name="scheme_on_primary">#000000</color>
+    <color name="scheme_primary_container">#1B5E7E</color>
+    <color name="scheme_on_primary_container">#FFFFFF</color>
+
+    <!-- Trend palette — lighter shades for dark backgrounds -->
+    <color name="trend_up">#FF6E6E</color>
+    <color name="trend_down">#66BB6A</color>
+    <color name="trend_flat">#90A4AE</color>
+</resources>

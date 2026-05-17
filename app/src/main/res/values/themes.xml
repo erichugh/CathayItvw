@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.CathayTest" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/cathay_green</item>
+        <item name="colorPrimaryVariant">@color/cathay_green_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/cathay_green_light</item>
+        <item name="colorSecondaryVariant">@color/cathay_green</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar: ignored on SDK 35+ edge-to-edge; AppBarLayout's statusBarForeground
+             (in fragment_stock_list.xml) paints the area black instead. -->
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Apply rounded BottomSheet + readable dialog buttons -->
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+    </style>
+</resources>
