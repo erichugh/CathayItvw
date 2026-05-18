@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import exam.hughwu.cathaytest.R
-import exam.hughwu.cathaytest.feature.stocklist.vo.DisplayStockUtil
+import exam.hughwu.cathaytest.feature.stocklist.DisplayStockUtil
 import exam.hughwu.cathaytest.usecase.vo.StockVo
 
 @Composable

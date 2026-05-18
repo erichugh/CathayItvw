@@ -32,4 +32,8 @@
     <string name="hint_no_ratio_data">此股無 PE／殖利率／PB 資料\n(可能為權證/ETF)</string>
     <string name="error_load_failed">載入失敗，請下拉重新整理</string>
     <string name="action_dismiss">確定</string>
+
+    <!-- No-network state on Home -->
+    <string name="no_network_message">目前沒有網路連線</string>
+    <string name="btn_open_network_settings">前往網路設定</string>
 </resources>

@@ -2,6 +2,7 @@ package exam.hughwu.cathaytest.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import exam.hughwu.cathaytest.common.network.NetworkStateManager
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,4 +44,20 @@ abstract class BaseViewModel<S : UiState, I : UiIntent, E : UiEvent>(
     }
 
     abstract suspend fun handleIntent(intent: I)
+
+    fun startActionWithNoNetworkHandling(
+        networkAction: () -> Unit,
+        showNoNetworkMessage: () -> Unit = {},
+    ) {
+        if (NetworkStateManager.isNetworkConnected()) {
+            networkAction()
+        } else {
+            handleNoNetworkCondition()
+            showNoNetworkMessage()
+        }
+    }
+
+    open fun handleNoNetworkCondition() {
+        // override this function to handle no network condition
+    }
 }

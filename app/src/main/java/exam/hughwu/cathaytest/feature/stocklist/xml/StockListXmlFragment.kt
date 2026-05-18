@@ -1,4 +1,4 @@
-package exam.hughwu.cathaytest.feature.stocklist
+package exam.hughwu.cathaytest.feature.stocklist.xml
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,33 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import exam.hughwu.cathaytest.R
 import exam.hughwu.cathaytest.common.BaseFragment
-import exam.hughwu.cathaytest.common.applyHorizontalAndBottomInsets
-import exam.hughwu.cathaytest.databinding.FragmentStockListBinding
-import exam.hughwu.cathaytest.feature.stocklist.adapter.StockAdapter
+import exam.hughwu.cathaytest.databinding.FragmentStockListXmlBinding
+import exam.hughwu.cathaytest.extension.applyHorizontalAndBottomInsets
+import exam.hughwu.cathaytest.feature.stocklist.StockListEvent
+import exam.hughwu.cathaytest.feature.stocklist.StockListIntent
+import exam.hughwu.cathaytest.feature.stocklist.StockListUiState
+import exam.hughwu.cathaytest.feature.stocklist.StockListViewModel
+import exam.hughwu.cathaytest.feature.stocklist.adapter.XmlStockAdapter
 import exam.hughwu.cathaytest.feature.stocklist.dialog.StockDetailDialog
 import exam.hughwu.cathaytest.feature.stocklist.dialog.StockSortBottomSheet
 
+/**
+ * Pure-XML variant of the stock list (item rows are `item_stock_card.xml`
+ * via [exam.hughwu.cathaytest.feature.stocklist.adapter.XmlStockAdapter], no Compose at all).
+ *
+ * Behaviour is identical to [exam.hughwu.cathaytest.feature.stocklist.hybrid.StockListFragment]; the only differences are the
+ * adapter (pure XML), the layout, and that the [exam.hughwu.cathaytest.feature.stocklist.StockListViewModel] is
+ * activity-scoped ([activityViewModels]) so all three variants share one
+ * instance and a single sort state.
+ */
 @AndroidEntryPoint
-class StockListFragment :
-    BaseFragment<FragmentStockListBinding, StockListUiState, StockListIntent, StockListEvent, StockListViewModel>() {
+class StockListXmlFragment :
+    BaseFragment<FragmentStockListXmlBinding, StockListUiState, StockListIntent, StockListEvent, StockListViewModel, >() {
 
     override val viewModel: StockListViewModel by activityViewModels()
 
     private val stockAdapter by lazy {
-        StockAdapter(onItemClick = { stock ->
+        XmlStockAdapter(onItemClick = { stock ->
             viewModel.sendIntent(StockListIntent.OnItemClicked(stock.code))
         })
     }
@@ -36,7 +49,7 @@ class StockListFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentStockListBinding.inflate(inflater, container, false)
+        binding = FragmentStockListXmlBinding.inflate(inflater, container, false)
         return binding!!.root
     }
 
@@ -50,6 +63,8 @@ class StockListFragment :
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = stockAdapter
                 setHasFixedSize(true)
+                // Snap-update (no item animator) keeps re-sorts of 1000+ rows
+                // instant; the initial fade-in is still driven by `layoutAnimation`.
                 itemAnimator = null
             }
 
@@ -67,10 +82,11 @@ class StockListFragment :
 
         // Receive selection from StockSortBottomSheet
         parentFragmentManager.setFragmentResultListener(
-            StockSortBottomSheet.REQUEST_KEY,
+            StockSortBottomSheet.Companion.REQUEST_KEY,
             viewLifecycleOwner,
         ) { _, bundle ->
-            val orderName = bundle.getString(StockSortBottomSheet.RESULT_SORT_ORDER) ?: return@setFragmentResultListener
+            val orderName = bundle.getString(StockSortBottomSheet.Companion.RESULT_SORT_ORDER)
+                ?: return@setFragmentResultListener
             val order = runCatching {
                 StockListUiState.SortOrder.valueOf(orderName)
             }.getOrNull() ?: return@setFragmentResultListener
@@ -92,14 +108,10 @@ class StockListFragment :
 
             val firstFill = stockAdapter.itemCount == 0 && uiState.stocks.isNotEmpty()
             val sortChanged = lastRenderedSortOrder != null &&
-                    lastRenderedSortOrder != uiState.sortOrder
+                lastRenderedSortOrder != uiState.sortOrder
             lastRenderedSortOrder = uiState.sortOrder
 
             if (sortChanged) {
-                // Re-sorting 1000+ items via ListAdapter's default move-diff is O(N²) on
-                // a complete reorder. Bypass move computation by clearing the list first
-                // (N removes, O(N)) and then re-submitting (N inserts against empty,
-                // O(N)). Net: snappy snap to top of new order.
                 stockAdapter.submitList(null) {
                     stockAdapter.submitList(uiState.stocks) {
                         recyclerView.scrollToPosition(0)

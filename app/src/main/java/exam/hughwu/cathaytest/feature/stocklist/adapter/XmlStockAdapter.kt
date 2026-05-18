@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import exam.hughwu.cathaytest.R
 import exam.hughwu.cathaytest.databinding.ItemStockCardBinding
-import exam.hughwu.cathaytest.feature.stocklist.vo.DisplayStockUtil
-import exam.hughwu.cathaytest.feature.stocklist.vo.DisplayStockUtil.PriceTrend
+import exam.hughwu.cathaytest.feature.stocklist.DisplayStockUtil
+import exam.hughwu.cathaytest.feature.stocklist.DisplayStockUtil.PriceTrend
 import exam.hughwu.cathaytest.usecase.vo.StockVo
 
 /**
@@ -19,7 +19,7 @@ import exam.hughwu.cathaytest.usecase.vo.StockVo
  */
 class XmlStockAdapter(
     private val onItemClick: (StockVo) -> Unit,
-) : ListAdapter<StockVo, XmlStockAdapter.XmlStockViewHolder>(DIFF) {
+) : ListAdapter<StockVo, XmlStockAdapter.XmlStockViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XmlStockViewHolder {
         val binding = ItemStockCardBinding.inflate(
@@ -96,7 +96,7 @@ class XmlStockAdapter(
     }
 
     companion object {
-        private val DIFF = object : DiffUtil.ItemCallback<StockVo>() {
+        private val diffCallback = object : DiffUtil.ItemCallback<StockVo>() {
             override fun areItemsTheSame(oldItem: StockVo, newItem: StockVo) =
                 oldItem.code == newItem.code
 

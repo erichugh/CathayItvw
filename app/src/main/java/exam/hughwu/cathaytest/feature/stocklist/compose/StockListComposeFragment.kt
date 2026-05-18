@@ -1,4 +1,4 @@
-package exam.hughwu.cathaytest.feature.stocklist
+package exam.hughwu.cathaytest.feature.stocklist.compose
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.viewbinding.ViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import exam.hughwu.cathaytest.common.BaseFragment
+import exam.hughwu.cathaytest.feature.stocklist.StockListEvent
+import exam.hughwu.cathaytest.feature.stocklist.StockListIntent
+import exam.hughwu.cathaytest.feature.stocklist.StockListUiState
+import exam.hughwu.cathaytest.feature.stocklist.StockListViewModel
 import exam.hughwu.cathaytest.feature.stocklist.composable.AppTheme
 import exam.hughwu.cathaytest.feature.stocklist.composable.StockListScreen
 

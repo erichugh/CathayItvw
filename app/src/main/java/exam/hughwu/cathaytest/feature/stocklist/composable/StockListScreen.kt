@@ -46,7 +46,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -56,10 +55,9 @@ import androidx.compose.runtime.LaunchedEffect
 import exam.hughwu.cathaytest.R
 import exam.hughwu.cathaytest.feature.stocklist.StockListEvent
 import exam.hughwu.cathaytest.feature.stocklist.StockListIntent
-import exam.hughwu.cathaytest.feature.stocklist.StockListUiState
 import exam.hughwu.cathaytest.feature.stocklist.StockListUiState.SortOrder
 import exam.hughwu.cathaytest.feature.stocklist.StockListViewModel
-import exam.hughwu.cathaytest.feature.stocklist.vo.DisplayStockUtil
+import exam.hughwu.cathaytest.feature.stocklist.DisplayStockUtil
 import exam.hughwu.cathaytest.usecase.vo.StockVo
 
 /**
@@ -70,7 +68,7 @@ import exam.hughwu.cathaytest.usecase.vo.StockVo
 @Composable
 fun StockListScreen(viewModel: StockListViewModel) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
 
     var sortSheetFor by remember { mutableStateOf<SortOrder?>(null) }
     var detailStock by remember { mutableStateOf<StockVo?>(null) }
@@ -83,7 +81,7 @@ fun StockListScreen(viewModel: StockListViewModel) {
                     is StockListEvent.ShowSortSheet -> sortSheetFor = event.current
                     is StockListEvent.ShowDetailDialog -> detailStock = event.stock
                     is StockListEvent.ShowError ->
-                        snackbarHostState.showSnackbar(event.message)
+                        snackBarHostState.showSnackbar(event.message)
                 }
             }
         }
@@ -133,7 +131,7 @@ fun StockListScreen(viewModel: StockListViewModel) {
                 )
             }
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = MaterialTheme.colorScheme.background,
         // Insets are handled explicitly below (mirrors the XML variants: the
         // app bar owns the top inset, the body owns the sides + bottom), so
@@ -251,36 +249,19 @@ private fun StockDetailAlertDialog(
     onDismiss: () -> Unit,
 ) {
     val context = LocalContext.current
-    val title = context.getString(
-        R.string.dialog_title_stock_detail,
-        DisplayStockUtil.textOrPlaceholder(stock.code),
-        DisplayStockUtil.textOrPlaceholder(stock.name),
-    )
-    val peLabel = stringResource(R.string.label_pe_ratio)
-    val yieldLabel = stringResource(R.string.label_dividend_yield)
-    val pbLabel = stringResource(R.string.label_pb_ratio)
-    val noDataHint = stringResource(R.string.hint_no_ratio_data)
-    val body = buildString {
-        append(peLabel)
-        append("  ")
-        append(DisplayStockUtil.textOrPlaceholder(stock.peRatio))
-        append('\n')
-        append(yieldLabel)
-        append("  ")
-        append(DisplayStockUtil.formatPercent(stock.dividendYield))
-        append('\n')
-        append(pbLabel)
-        append("  ")
-        append(DisplayStockUtil.textOrPlaceholder(stock.pbRatio))
 
-        val noRatioData = stock.peRatio.isNullOrBlank() &&
-            stock.dividendYield.isNullOrBlank() &&
-            stock.pbRatio.isNullOrBlank()
-        if (noRatioData) {
-            append("\n\n")
-            append(noDataHint)
-        }
-    }
+    val title = DisplayStockUtil.formatStockDetailTitle(
+        context = context,
+        stockCode = stock.code,
+        stockName = stock.name
+    )
+
+    val body = DisplayStockUtil.formatStockDetailBody(
+        context = context,
+        peRatio = stock.peRatio,
+        dividendYield = stock.dividendYield,
+        pbRatio = stock.pbRatio,
+    )
 
     AlertDialog(
         onDismissRequest = onDismiss,

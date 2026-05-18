@@ -21,16 +21,16 @@
 
     <fragment
         android:id="@+id/stockListXmlFragment"
-        android:name="exam.hughwu.cathaytest.feature.stocklist.StockListXmlFragment"
+        android:name="exam.hughwu.cathaytest.feature.stocklist.xml.StockListXmlFragment"
         android:label="@string/title_variant_xml" />
 
     <fragment
         android:id="@+id/stockListFragment"
-        android:name="exam.hughwu.cathaytest.feature.stocklist.StockListFragment"
+        android:name="exam.hughwu.cathaytest.feature.stocklist.hybrid.StockListFragment"
         android:label="@string/title_variant_hybrid" />
 
     <fragment
         android:id="@+id/stockListComposeFragment"
-        android:name="exam.hughwu.cathaytest.feature.stocklist.StockListComposeFragment"
+        android:name="exam.hughwu.cathaytest.feature.stocklist.compose.StockListComposeFragment"
         android:label="@string/title_variant_compose" />
 </navigation>

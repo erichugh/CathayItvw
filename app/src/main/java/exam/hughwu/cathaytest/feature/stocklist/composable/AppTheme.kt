@@ -11,7 +11,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import exam.hughwu.cathaytest.R
-import exam.hughwu.cathaytest.feature.stocklist.vo.DisplayStockUtil
+import exam.hughwu.cathaytest.feature.stocklist.DisplayStockUtil
 
 data class TrendColors(
     val up: Color,

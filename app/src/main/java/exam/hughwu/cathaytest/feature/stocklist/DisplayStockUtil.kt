@@ -1,7 +1,10 @@
-package exam.hughwu.cathaytest.feature.stocklist.vo
+package exam.hughwu.cathaytest.feature.stocklist
 
+import android.content.Context
+import exam.hughwu.cathaytest.R
 import java.text.NumberFormat
 import java.util.Locale
+import kotlin.math.abs
 
 /**
  * Pure helpers for translating raw StockVo
@@ -52,7 +55,7 @@ object DisplayStockUtil {
     /** Format with explicit +/- prefix for change-style fields. */
     fun formatSignedNumber(raw: String?): String {
         val parsed = raw?.toDoubleOrNull() ?: return PLACEHOLDER
-        val abs = String.format(Locale.US, "%,.2f", kotlin.math.abs(parsed))
+        val abs = String.format(Locale.US, "%,.2f", abs(parsed))
         return when {
             parsed > 0 -> "+$abs"
             parsed < 0 -> "-$abs"
@@ -73,6 +76,42 @@ object DisplayStockUtil {
         if (raw.isNullOrBlank()) return PLACEHOLDER
         if (raw.toDoubleOrNull() == null) return PLACEHOLDER
         return "($raw%)"
+    }
+
+    fun formatStockDetailTitle(context: Context, stockCode: String, stockName: String?): String {
+        return context.getString(
+            R.string.dialog_title_stock_detail,
+            textOrPlaceholder(stockCode),
+            textOrPlaceholder(stockName),
+        )
+    }
+
+    fun formatStockDetailBody(context: Context, peRatio: String?, dividendYield: String?, pbRatio: String?): String {
+        return buildString {
+            appendField(context, R.string.label_pe_ratio, peRatio)
+            appendLine()
+            appendField(
+                context,
+                R.string.label_dividend_yield,
+                formatPercent(dividendYield),
+            )
+            appendLine()
+            appendField(context, R.string.label_pb_ratio, pbRatio)
+
+            val noRatioData = peRatio.isNullOrBlank() &&
+                    dividendYield.isNullOrBlank() &&
+                    pbRatio.isNullOrBlank()
+            if (noRatioData) {
+                appendLine()
+                append(context.getString(R.string.hint_no_ratio_data))
+            }
+        }
+    }
+
+    private fun StringBuilder.appendField(context: Context, labelRes: Int, value: String?) {
+        append(context.getString(labelRes))
+        append("  ")
+        append(textOrPlaceholder(value))
     }
 
     private val INT_FORMAT = NumberFormat.getIntegerInstance(Locale.US)

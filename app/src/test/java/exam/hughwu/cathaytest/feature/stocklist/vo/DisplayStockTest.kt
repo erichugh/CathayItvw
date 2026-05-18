@@ -1,6 +1,7 @@
 package exam.hughwu.cathaytest.feature.stocklist.vo
 
-import exam.hughwu.cathaytest.feature.stocklist.vo.DisplayStockUtil.PriceTrend
+import exam.hughwu.cathaytest.feature.stocklist.DisplayStockUtil
+import exam.hughwu.cathaytest.feature.stocklist.DisplayStockUtil.PriceTrend
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

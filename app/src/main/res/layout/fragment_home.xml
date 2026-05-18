@@ -28,6 +28,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/content_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"
@@ -64,6 +65,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_variant_compose" />
+    </LinearLayout>
+
+    <!--
+        Shown only when there is no network connection. The "open network
+        settings" button deep-links into the system Settings so the user can
+        restore connectivity without leaving for the launcher.
+    -->
+    <LinearLayout
+        android:id="@+id/no_network_group"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar">
+
+        <TextView
+            android:id="@+id/tv_no_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/no_network_message"
+            android:textColor="@color/scheme_on_surface_variant"
+            android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_open_network_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_open_network_settings" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

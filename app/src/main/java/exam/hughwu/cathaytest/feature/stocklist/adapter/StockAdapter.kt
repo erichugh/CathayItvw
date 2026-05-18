@@ -18,7 +18,7 @@ import exam.hughwu.cathaytest.usecase.vo.StockVo
  */
 class StockAdapter(
     private val onItemClick: (StockVo) -> Unit,
-) : ListAdapter<StockVo, StockAdapter.StockViewHolder>(DIFF) {
+) : ListAdapter<StockVo, StockAdapter.StockViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
         val composeView = ComposeView(parent.context).apply {
@@ -59,7 +59,7 @@ class StockAdapter(
     }
 
     companion object {
-        private val DIFF = object : DiffUtil.ItemCallback<StockVo>() {
+        private val diffCallback = object : DiffUtil.ItemCallback<StockVo>() {
             override fun areItemsTheSame(oldItem: StockVo, newItem: StockVo) =
                 oldItem.code == newItem.code
 
