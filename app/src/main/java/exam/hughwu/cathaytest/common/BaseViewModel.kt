@@ -2,8 +2,9 @@ package exam.hughwu.cathaytest.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import exam.hughwu.cathaytest.common.network.NetworkStateManager
+import exam.hughwu.cathaytest.common.network.NetworkStateProvider
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -17,7 +18,11 @@ import kotlinx.coroutines.launch
  */
 abstract class BaseViewModel<S : UiState, I : UiIntent, E : UiEvent>(
     initialState: S,
+    protected val networkStateProvider: NetworkStateProvider,
 ) : ViewModel() {
+
+    /** Live connectivity stream, for screens that re-render on changes. */
+    val networkState: Flow<Boolean> get() = networkStateProvider.networkStateFlow
 
     protected val mutableUiState: MutableStateFlow<S> = MutableStateFlow(initialState)
     val uiState: StateFlow<S> = mutableUiState.asStateFlow()
@@ -49,7 +54,7 @@ abstract class BaseViewModel<S : UiState, I : UiIntent, E : UiEvent>(
         networkAction: () -> Unit,
         showNoNetworkMessage: () -> Unit = {},
     ) {
-        if (NetworkStateManager.isNetworkConnected()) {
+        if (networkStateProvider.isNetworkConnected()) {
             networkAction()
         } else {
             handleNoNetworkCondition()

@@ -14,7 +14,6 @@ import exam.hughwu.cathaytest.common.BaseFragment
 import exam.hughwu.cathaytest.common.NoEvent
 import exam.hughwu.cathaytest.common.NoIntent
 import exam.hughwu.cathaytest.common.NoUiState
-import exam.hughwu.cathaytest.common.network.NetworkStateManager
 import exam.hughwu.cathaytest.extension.applyHorizontalAndBottomInsets
 import exam.hughwu.cathaytest.databinding.FragmentHomeBinding
 import exam.hughwu.cathaytest.extension.collectIn
@@ -27,8 +26,8 @@ import exam.hughwu.cathaytest.extension.setOnSingleClickListener
  * Gated by [HomeViewModel.startActionWithNoNetworkHandling]: with a live
  * connection the variant buttons show; offline they are replaced by a prompt
  * that deep-links into the system network settings. The screen reacts to
- * connectivity changes by collecting [NetworkStateManager.networkStateFlow]
- * via [collectIn] — its `repeatOnLifecycle(STARTED)` also re-renders when the
+ * connectivity changes by collecting [HomeViewModel.networkState] via
+ * [collectIn] — its `repeatOnLifecycle(STARTED)` also re-renders when the
  * fragment returns to the foreground (e.g. back from system Settings).
  */
 @AndroidEntryPoint
@@ -73,7 +72,7 @@ class HomeFragment :
         // Synchronous first paint so there's no flicker before the flow's
         // first emission; the collector below keeps it live afterwards.
         renderByNetworkState()
-        NetworkStateManager.networkStateFlow.collectIn(viewLifecycleOwner) {
+        viewModel.networkState.collectIn(viewLifecycleOwner) {
             renderByNetworkState()
         }
     }

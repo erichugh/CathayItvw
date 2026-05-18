@@ -3,6 +3,7 @@ package exam.hughwu.cathaytest.feature.stocklist
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import exam.hughwu.cathaytest.common.BaseViewModel
+import exam.hughwu.cathaytest.common.network.NetworkStateProvider
 import exam.hughwu.cathaytest.feature.stocklist.StockListUiState.SortOrder
 import exam.hughwu.cathaytest.usecase.GetMergedStocksUseCase
 import exam.hughwu.cathaytest.usecase.vo.StockVo
@@ -18,7 +19,11 @@ import javax.inject.Inject
 class StockListViewModel @Inject constructor(
     private val getMergedStocks: GetMergedStocksUseCase,
     private val sortPreference: SortPreferenceRepository,
-) : BaseViewModel<StockListUiState, StockListIntent, StockListEvent>(StockListUiState.initial()) {
+    networkStateProvider: NetworkStateProvider,
+) : BaseViewModel<StockListUiState, StockListIntent, StockListEvent>(
+    StockListUiState.initial(),
+    networkStateProvider,
+) {
 
     init {
         // Reactively reflect any sort-preference change (incl. first read) into UI state.

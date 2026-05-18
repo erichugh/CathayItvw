@@ -1,6 +1,7 @@
 package exam.hughwu.cathaytest.feature.stocklist
 
 import app.cash.turbine.test
+import exam.hughwu.cathaytest.common.network.NetworkStateProvider
 import exam.hughwu.cathaytest.feature.stocklist.StockListUiState.SortOrder
 import exam.hughwu.cathaytest.usecase.GetMergedStocksUseCase
 import exam.hughwu.cathaytest.usecase.vo.StockVo
@@ -32,6 +33,7 @@ class StockListViewModelTest {
     private lateinit var useCase: GetMergedStocksUseCase
     private lateinit var sortPref: SortPreferenceRepository
     private lateinit var sortFlow: MutableStateFlow<StoredSortOrder>
+    private val networkProvider: NetworkStateProvider = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -53,7 +55,7 @@ class StockListViewModelTest {
             UseCaseResponse.Success(listOf(stock("2330"), stock("0050"), stock("9999")))
         )
 
-        val vm = StockListViewModel(useCase, sortPref)
+        val vm = StockListViewModel(useCase, sortPref, networkProvider)
         vm.sendIntent(StockListIntent.Init)
         advanceUntilIdle()
 
@@ -68,7 +70,7 @@ class StockListViewModelTest {
     fun `OnSortSelected with different order persists to DataStore`() = runTest {
         every { useCase() } returns flowOf(UseCaseResponse.Success(emptyList()))
 
-        val vm = StockListViewModel(useCase, sortPref)
+        val vm = StockListViewModel(useCase, sortPref, networkProvider)
         vm.sendIntent(StockListIntent.Init)
         advanceUntilIdle()
 
@@ -82,7 +84,7 @@ class StockListViewModelTest {
     fun `OnSortSelected with same order is a no-op (no write, no scroll event)`() = runTest {
         every { useCase() } returns flowOf(UseCaseResponse.Success(emptyList()))
 
-        val vm = StockListViewModel(useCase, sortPref)
+        val vm = StockListViewModel(useCase, sortPref, networkProvider)
         vm.sendIntent(StockListIntent.Init)
         advanceUntilIdle()
 
@@ -99,7 +101,7 @@ class StockListViewModelTest {
             UseCaseResponse.Success(listOf(stock("2330"), stock("0050"), stock("9999")))
         )
 
-        val vm = StockListViewModel(useCase, sortPref)
+        val vm = StockListViewModel(useCase, sortPref, networkProvider)
         vm.sendIntent(StockListIntent.Init)
         advanceUntilIdle()
 
@@ -119,7 +121,7 @@ class StockListViewModelTest {
             UseCaseResponse.Success(listOf(stock("2330")))
         )
 
-        val vm = StockListViewModel(useCase, sortPref)
+        val vm = StockListViewModel(useCase, sortPref, networkProvider)
         vm.sendIntent(StockListIntent.Init)
         advanceUntilIdle()
 
@@ -136,7 +138,7 @@ class StockListViewModelTest {
     fun `OnSortIconClicked emits ShowSortSheet with current order`() = runTest {
         every { useCase() } returns flowOf(UseCaseResponse.Success(emptyList()))
 
-        val vm = StockListViewModel(useCase, sortPref)
+        val vm = StockListViewModel(useCase, sortPref, networkProvider)
         vm.sendIntent(StockListIntent.Init)
         advanceUntilIdle()
 

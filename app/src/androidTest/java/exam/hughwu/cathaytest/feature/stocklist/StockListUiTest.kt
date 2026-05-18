@@ -15,13 +15,16 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import exam.hughwu.cathaytest.MainActivity
 import exam.hughwu.cathaytest.R
+import exam.hughwu.cathaytest.common.network.NetworkStateProvider
 import exam.hughwu.repository.twse.repo.ExchangeReportRepository
 import exam.hughwu.retrofit.NetworkResponse
 import exam.hughwu.retrofit.twse.model.exchangereport.response.StockDailyTrading
 import exam.hughwu.retrofit.twse.model.exchangereport.response.StockPriceAvg
 import exam.hughwu.retrofit.twse.model.exchangereport.response.StockRatio
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,8 +50,14 @@ class StockListUiTest {
     @JvmField
     val fakeRepo: ExchangeReportRepository = mockk(relaxed = true)
 
+    @BindValue
+    @JvmField
+    val fakeNetwork: NetworkStateProvider = mockk(relaxed = true)
+
     @Before
     fun setUp() {
+        every { fakeNetwork.isNetworkConnected() } returns true
+        every { fakeNetwork.networkStateFlow } returns flowOf(true)
         coEvery { fakeRepo.getStockDailyTradingReport() } returns NetworkResponse.Success(
             listOf(
                 daily("2330", "台積電"),
