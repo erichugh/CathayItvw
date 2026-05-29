@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.fragment)
     ksp(libs.hilt.compiler)
 
     val composeBom = platform(libs.androidx.compose.bom)

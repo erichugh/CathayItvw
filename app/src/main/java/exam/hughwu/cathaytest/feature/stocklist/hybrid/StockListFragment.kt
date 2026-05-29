@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import exam.hughwu.cathaytest.R
@@ -24,7 +24,7 @@ import exam.hughwu.cathaytest.feature.stocklist.dialog.StockSortBottomSheet
 class StockListFragment :
     BaseFragment<FragmentStockListBinding, StockListUiState, StockListIntent, StockListEvent, StockListViewModel>() {
 
-    override val viewModel: StockListViewModel by activityViewModels()
+    override val viewModel: StockListViewModel by hiltNavGraphViewModels(R.id.stockGraph)
 
     private val stockAdapter by lazy {
         StockAdapter(onItemClick = { stock ->

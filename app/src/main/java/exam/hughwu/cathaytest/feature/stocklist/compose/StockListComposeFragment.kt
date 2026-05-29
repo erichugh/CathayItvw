@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.viewbinding.ViewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import exam.hughwu.cathaytest.R
 import exam.hughwu.cathaytest.common.BaseFragment
 import exam.hughwu.cathaytest.feature.stocklist.StockListEvent
 import exam.hughwu.cathaytest.feature.stocklist.StockListIntent
@@ -26,7 +27,7 @@ import exam.hughwu.cathaytest.feature.stocklist.composable.StockListScreen
 class StockListComposeFragment :
     BaseFragment<ViewBinding, StockListUiState, StockListIntent, StockListEvent, StockListViewModel>() {
 
-    override val viewModel: StockListViewModel by activityViewModels()
+    override val viewModel: StockListViewModel by hiltNavGraphViewModels(R.id.stockGraph)
 
     override fun onCreateView(
         inflater: LayoutInflater,
