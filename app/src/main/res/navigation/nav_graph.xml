@@ -2,35 +2,40 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/stockGraph">
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="exam.hughwu.cathaytest.feature.home.HomeFragment"
-        android:label="@string/title_home">
-        <action
-            android:id="@+id/action_home_to_xml"
-            app:destination="@id/stockListXmlFragment" />
-        <action
-            android:id="@+id/action_home_to_hybrid"
-            app:destination="@id/stockListFragment" />
-        <action
-            android:id="@+id/action_home_to_compose"
-            app:destination="@id/stockListComposeFragment" />
-    </fragment>
+    <navigation
+        android:id="@+id/stockGraph"
+        app:startDestination="@id/homeFragment">
 
-    <fragment
-        android:id="@+id/stockListXmlFragment"
-        android:name="exam.hughwu.cathaytest.feature.stocklist.xml.StockListXmlFragment"
-        android:label="@string/title_variant_xml" />
+        <fragment
+            android:id="@+id/homeFragment"
+            android:name="exam.hughwu.cathaytest.feature.home.HomeFragment"
+            android:label="@string/title_home">
+            <action
+                android:id="@+id/action_home_to_xml"
+                app:destination="@id/stockListXmlFragment" />
+            <action
+                android:id="@+id/action_home_to_hybrid"
+                app:destination="@id/stockListFragment" />
+            <action
+                android:id="@+id/action_home_to_compose"
+                app:destination="@id/stockListComposeFragment" />
+        </fragment>
 
-    <fragment
-        android:id="@+id/stockListFragment"
-        android:name="exam.hughwu.cathaytest.feature.stocklist.hybrid.StockListFragment"
-        android:label="@string/title_variant_hybrid" />
+        <fragment
+            android:id="@+id/stockListXmlFragment"
+            android:name="exam.hughwu.cathaytest.feature.stocklist.xml.StockListXmlFragment"
+            android:label="@string/title_variant_xml" />
 
-    <fragment
-        android:id="@+id/stockListComposeFragment"
-        android:name="exam.hughwu.cathaytest.feature.stocklist.compose.StockListComposeFragment"
-        android:label="@string/title_variant_compose" />
+        <fragment
+            android:id="@+id/stockListFragment"
+            android:name="exam.hughwu.cathaytest.feature.stocklist.hybrid.StockListFragment"
+            android:label="@string/title_variant_hybrid" />
+
+        <fragment
+            android:id="@+id/stockListComposeFragment"
+            android:name="exam.hughwu.cathaytest.feature.stocklist.compose.StockListComposeFragment"
+            android:label="@string/title_variant_compose" />
+    </navigation>
 </navigation>

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import exam.hughwu.cathaytest.R
@@ -26,14 +26,14 @@ import exam.hughwu.cathaytest.feature.stocklist.dialog.StockSortBottomSheet
  *
  * Behaviour is identical to [exam.hughwu.cathaytest.feature.stocklist.hybrid.StockListFragment]; the only differences are the
  * adapter (pure XML), the layout, and that the [exam.hughwu.cathaytest.feature.stocklist.StockListViewModel] is
- * activity-scoped ([activityViewModels]) so all three variants share one
- * instance and a single sort state.
+ * scoped to the `stockGraph` nav sub-graph ([hiltNavGraphViewModels]) so all three
+ * variants share one instance and a single sort state across the flow.
  */
 @AndroidEntryPoint
 class StockListXmlFragment :
     BaseFragment<FragmentStockListXmlBinding, StockListUiState, StockListIntent, StockListEvent, StockListViewModel, >() {
 
-    override val viewModel: StockListViewModel by activityViewModels()
+    override val viewModel: StockListViewModel by hiltNavGraphViewModels(R.id.stockGraph)
 
     private val stockAdapter by lazy {
         XmlStockAdapter(onItemClick = { stock ->
